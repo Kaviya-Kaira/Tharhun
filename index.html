@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Birthday Surprise 🎉</title>
+
+<!-- Google Font -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+<!-- QR Code Library -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    height: 100vh;
+    background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+/* Containers */
+.container {
+    width: 90%;
+    max-width: 400px;
+    padding: 30px;
+    border-radius: 20px;
+    background: rgba(255,255,255,0.2);
+    backdrop-filter: blur(15px);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    text-align: center;
+    color: white;
+}
+
+/* Password Screen */
+#passwordScreen {
+    animation: fadeIn 1s ease;
+}
+
+input {
+    width: 100%;
+    padding: 12px;
+    margin-top: 15px;
+    border-radius: 10px;
+    border: none;
+    outline: none;
+    font-size: 16px;
+}
+
+button {
+    margin-top: 15px;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 10px;
+    background: #ff6f91;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+button:hover {
+    background: #ff3e6c;
+}
+
+#error {
+    margin-top: 10px;
+    color: #ffdddd;
+    font-size: 14px;
+}
+
+/* Main Content */
+#mainContent {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    animation: fadeIn 1.5s ease;
+}
+
+.message {
+    font-size: 18px;
+    margin-bottom: 20px;
+    animation: slideUp 1.5s ease;
+}
+
+/* QR */
+#qrcode {
+    margin-top: 20px;
+}
+
+/* Music Button */
+.music-btn {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    background: rgba(255,255,255,0.3);
+    border-radius: 50%;
+    padding: 12px;
+    cursor: pointer;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
+
+@keyframes slideUp {
+    from {transform: translateY(30px); opacity: 0;}
+    to {transform: translateY(0); opacity: 1;}
+}
+
+/* Floating Hearts */
+.heart {
+    position: absolute;
+    color: pink;
+    font-size: 20px;
+    animation: floatUp 5s linear infinite;
+}
+
+@keyframes floatUp {
+    from {
+        transform: translateY(100vh) scale(0.5);
+        opacity: 1;
+    }
+    to {
+        transform: translateY(-10vh) scale(1.2);
+        opacity: 0;
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- Password Screen -->
+<div id="passwordScreen" class="container">
+    <h2>Enter password 💌</h2>
+    <input type="password" id="passwordInput" placeholder="Enter password">
+    <button onclick="checkPassword()">Submit</button>
+    <div id="error"></div>
+</div>
+
+<!-- Main Content -->
+<div id="mainContent" class="container">
+    <div class="message" id="birthdayMessage">
+        <!-- ✨ EDIT YOUR MESSAGE HERE ✨ -->
+        Happy Birthday Kutty❤️  
+        You mean the world to me.  
+        I hope this little surprise brings a smile to your face 😊
+        You are the kindest and most patient being I have met in this life.
+        I have spent almost all of my college life with you and I am proud of the person you have grown up to become.
+        You inspire me, and many others to seek what we love and indulge in what brings us happiness.
+        when you teach something to someone, you truly enojy the process and feels so evident in you action. I hope you continue being the same.
+        You have always stood strong for the people you love.
+        Unna maari friend lam irundha dhairiyama kola kuda pannalam.
+        I have always loved your smile. I never want that to fade away at all. Let's do our best to preserve it.
+        This message might be all over the place and not so heart warming, but I can warm you up in a jiffy if were in the same room (wink emoji)
+        I love you with all my heart Tharhun.
+        Hope this year brings you all the joy and success that you deserve.
+        Happiiieee happiiieee birthday Kutty❤️
+
+
+    </div>
+
+    <div id="qrcode"></div>
+</div>
+
+<!-- Music -->
+<audio id="bgMusic" loop>
+    <source src="https://www.bensound.com/bensound-music/bensound-love.mp3" type="audio/mpeg">
+</audio>
+
+<div class="music-btn" onclick="toggleMusic()">🎵</div>
+
+<script>
+
+// 🔐 CHANGE PASSWORD HERE
+const correctPassword = "strawberry";
+
+// 🎁 CHANGE QR IMAGE LINK HERE
+const qrLink = "https://pub-1407f82391df4ab1951418d04be76914.r2.dev/uploads/d2319a5f-1523-4562-8810-2333d984b117.jpeg";
+
+function checkPassword() {
+    const input = document.getElementById("passwordInput").value;
+    const error = document.getElementById("error");
+
+    if (input === correctPassword) {
+        document.getElementById("passwordScreen").style.display = "none";
+        document.getElementById("mainContent").style.display = "flex";
+
+        generateQR();
+        startHearts();
+    } else {
+        error.textContent = "Wrong password, try again!";
+    }
+}
+
+function generateQR() {
+    new QRCode(document.getElementById("qrcode"), {
+        text: qrLink,
+        width: 150,
+        height: 150
+    });
+}
+
+// Floating hearts effect
+function startHearts() {
+    setInterval(() => {
+        const heart = document.createElement("div");
+        heart.className = "heart";
+        heart.innerHTML = "💖";
+        heart.style.left = Math.random() * 100 + "vw";
+        heart.style.fontSize = (Math.random() * 20 + 10) + "px";
+
+        document.body.appendChild(heart);
+
+        setTimeout(() => {
+            heart.remove();
+        }, 5000);
+    }, 300);
+}
+
+// Music toggle
+function toggleMusic() {
+    const music = document.getElementById("bgMusic");
+    if (music.paused) {
+        music.play();
+    } else {
+        music.pause();
+    }
+}
+
+</script>
+
+</body>
+</html>
